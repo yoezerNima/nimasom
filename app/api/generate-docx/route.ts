@@ -232,12 +232,38 @@ export async function POST(request: Request) {
     function uint8ToBase64(u8: Uint8Array) {
       const Global: any = globalThis as any
       if (typeof Global.Buffer !== "undefined") return Global.Buffer.from(u8).toString("base64")
-      let binary = ""
-      const chunkSize = 0x8000
-      for (let i = 0; i < u8.length; i += chunkSize) {
-        binary += String.fromCharCode(...u8.subarray(i, i + chunkSize))
+
+      // Fallback: pure JS base64 encoder to avoid btoa/encoding issues
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+      let result = ''
+      const len = u8.length
+      let i = 0
+
+      while (i + 2 < len) {
+        const a = u8[i++]
+        const b = u8[i++]
+        const c = u8[i++]
+        result += chars[a >> 2]
+        result += chars[((a & 0x03) << 4) | (b >> 4)]
+        result += chars[((b & 0x0f) << 2) | (c >> 6)]
+        result += chars[c & 0x3f]
       }
-      return btoa(binary)
+
+      if (i < len) {
+        const a = u8[i++]
+        result += chars[a >> 2]
+        if (i === len) {
+          result += chars[(a & 0x03) << 4]
+          result += '=='
+        } else {
+          const b = u8[i]
+          result += chars[((a & 0x03) << 4) | (b >> 4)]
+          result += chars[(b & 0x0f) << 2]
+          result += '='
+        }
+      }
+
+      return result
     }
 
     const base64 = uint8ToBase64(uint8)
