@@ -1,0 +1,3 @@
+{
+  "/api/generate-docx/route": "app/api/generate-docx/route.js"
+}

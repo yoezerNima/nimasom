@@ -1,0 +1,21 @@
+{
+  "title": "My Automation Project",
+  "problemStatement": "We need to streamline our reporting process to reduce manual effort and improve accuracy.",
+  "objectives": [
+    "Automate daily report generation",
+    "Reduce reporting time from 2 hours to 15 minutes",
+    "Improve data consistency across departments"
+  ],
+  "requirements": [
+    "Access to data warehouse API",
+    "Email notification system",
+    "Centralized file storage (SharePoint)"
+  ],
+  "manualSteps": [
+    "Extract data from multiple sources",
+    "Combine and format data in Excel",
+    "Create summary visualizations",
+    "Send report to stakeholders"
+  ],
+  "automationIdeas": "Use Power Automate to schedule daily data extraction, create reports using this API, save to SharePoint, and send email notifications with the generated document."
+}
